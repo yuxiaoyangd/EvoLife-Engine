@@ -22,6 +22,10 @@ app.post('/api/tick', async (_request, response) => {
   response.json(await runtime.advanceTick())
 })
 
+app.post('/api/reset', async (_request, response) => {
+  response.json(await runtime.reset())
+})
+
 app.post('/api/interact', (request, response) => {
   const body = request.body as Partial<InteractionRequest>
 

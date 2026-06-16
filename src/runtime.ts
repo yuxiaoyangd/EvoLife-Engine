@@ -9,7 +9,7 @@ const USER_ACTIONS: InteractionRequest['actionType'][] = ['EAT', 'SLEEP', 'PLAY'
 
 export class EvoLifeRuntime {
   private tick = 0
-  private readonly store = new InMemoryInstanceStore(createInitialInstance())
+  private store = new InMemoryInstanceStore(createInitialInstance())
   private latestResult?: TickResult
   private pendingRequestedActionType?: InteractionRequest['actionType']
 
@@ -38,6 +38,15 @@ export class EvoLifeRuntime {
     this.pendingRequestedActionType = undefined
 
     return clone(result)
+  }
+
+  async reset(): Promise<SimulationSnapshot> {
+    this.tick = 0
+    this.store = new InMemoryInstanceStore(createInitialInstance())
+    this.latestResult = undefined
+    this.pendingRequestedActionType = undefined
+
+    return this.getSnapshot()
   }
 
   requestInteraction(request: InteractionRequest) {
